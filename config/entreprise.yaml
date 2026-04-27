@@ -1,0 +1,5 @@
+# config/entreprise.yaml
+# DÉPRÉCIÉ — Ce fichier n'est plus utilisé.
+# La configuration est désormais centralisée dans entreprise.json
+# Ce fichier est conservé uniquement pour référence historique.
+# Voir entreprise.py pour le chargement automatique depuis entreprise.json.

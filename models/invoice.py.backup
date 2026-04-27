@@ -1,0 +1,85 @@
+# models/invoice.py - VERSION CORRIGÉE
+from sqlalchemy import Column, Integer, String, Date, Float, Boolean, ForeignKey, Text, Enum as SQLEnum, func
+from sqlalchemy.orm import relationship
+from database.db import Base
+from models.enums import InvoiceStatus, PaymentMethod
+
+
+class Invoice(Base):
+    """Modèle pour les factures"""
+    __tablename__ = "invoices"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    invoice_number = Column(String(50), unique=True, index=True, nullable=False)
+    client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
+    
+    # Dates
+    date = Column(Date, nullable=False, server_default=func.current_date())
+    due_date = Column(Date)
+    
+    # Montants
+    subtotal = Column(Float, default=0)
+    tax_rate = Column(Float, default=0)
+    tax_amount = Column(Float, default=0)
+    total_amount = Column(Float, default=0)
+    amount_paid = Column(Float, default=0)
+    balance_due = Column(Float, default=0)
+    
+    # Statut et paiement
+    status = Column(SQLEnum(InvoiceStatus), default=InvoiceStatus.DRAFT)
+    payment_method = Column(SQLEnum(PaymentMethod))
+    
+    # Notes
+    notes = Column(Text)
+    
+    # Relations CORRIGÉES
+    client = relationship("Client", back_populates="factures")
+    
+    # CORRECTION: Ces relations sont correctes si les modèles enfants ont les bonnes ForeignKey
+    items = relationship("InvoiceItem", back_populates="invoice", cascade="all, delete-orphan")
+    payments = relationship("InvoicePayment", back_populates="invoice", cascade="all, delete-orphan")
+    
+    # Suivi
+    created_at = Column(Date, server_default=func.current_date())
+    updated_at = Column(Date, onupdate=func.current_date())
+    
+    def __repr__(self):
+        return f"<Invoice {self.invoice_number}>"
+
+
+class InvoiceItem(Base):
+    """Ligne d'une facture"""
+    __tablename__ = "invoice_items"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    invoice_id = Column(Integer, ForeignKey("invoices.id"), nullable=False)  # ✅ ForeignKey correcte
+    
+    description = Column(String(200), nullable=False)
+    quantity = Column(Integer, default=1)
+    unit_price = Column(Float, nullable=False)
+    total = Column(Float)
+    
+    # CORRECTION: Le nom de la relation DOIT correspondre
+    invoice_rel = relationship("Invoice", back_populates="items")  # ⚠️ "invoice" cause un conflit
+    
+    def __repr__(self):
+        return f"<InvoiceItem {self.description}>"
+
+
+class InvoicePayment(Base):
+    """Paiement d'une facture"""
+    __tablename__ = "invoice_payments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    invoice_id = Column(Integer, ForeignKey("invoices.id"), nullable=False)  # ✅ ForeignKey correcte
+    
+    amount = Column(Float, nullable=False)
+    payment_date = Column(Date, nullable=False, server_default=func.current_date())
+    payment_method = Column(SQLEnum(PaymentMethod), nullable=False)
+    reference = Column(String(100))
+    
+    # CORRECTION: Le nom de la relation DOIT correspondre
+    invoice_rel = relationship("Invoice", back_populates="payments")  # ⚠️ "invoice" cause un conflit
+    
+    def __repr__(self):
+        return f"<InvoicePayment {self.amount}>"

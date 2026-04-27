@@ -1,0 +1,35 @@
+{
+    "_commentaire": "SOURCE UNIQUE de configuration entreprise. Ne pas modifier entreprise.py ni entreprise.yaml.",
+    "nom": "CLEAN MANAGER SARL",
+    "type": "Entreprise de nettoyage -- travaux & services",
+    "adresse": "22 Rue deux piliers Bouzaréah 16006 Alger Algérie",
+    "telephone": "05552 88 30 50 / 0777 98 90 58",
+    "email": "entsnet7@gmail.com",
+    "site_web": "www.entsnet.com",
+    "numero_rc": "16/00 0980844B08",
+    "numero_article": "16119102314",
+    "numero_nif": "000816098084472",
+    "numero_nis": "0008 1611 01973 48",
+    "numero_fiscal": "000816098084472",
+    "numero_ss": "CNAS-01-12345-2024",
+    "compte_bancaire": "Compte CCP N° 371997 CLE 06 Banque BEA 004 Cheraga 004220030293",
+    "capital_social": "10.000.000 DA",
+    "responsable": "M. Kamel BOUCHERIT",
+    "poste_responsable": "Directeur Général",
+    "logo_path": "assets/logo-entreprise.jpg",
+    "taux_cotisations": {
+        "cnass_salarial": 0.09,
+        "casnos_salarial": 0.01,
+        "assurance_chomage_salarial": 0.005,
+        "cnass_patronal": 0.26,
+        "casnos_patronal": 0.015,
+        "accident_travail": 0.01,
+        "assurance_chomage_patronal": 0.01
+    },
+    "options_affichage": {
+        "show_logo": true,
+        "show_qr_code": true,
+        "watermark": "COPIE CONFORME",
+        "footer_text": "Document officiel - À conserver 5 ans"
+    }
+}

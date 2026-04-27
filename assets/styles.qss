@@ -1,0 +1,141 @@
+/* Style général de l'application */
+QMainWindow {
+    background-color: #f5f7fa;
+}
+
+/* Sidebar */
+QWidget#sidebar {
+    background-color: #2c3e50;
+    border-right: 2px solid #1a252f;
+}
+
+/* Boutons de la sidebar */
+QPushButton {
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+QPushButton:hover {
+    background-color: #1abc9c;
+    font-weight: bold;
+}
+
+QPushButton:checked {
+    background-color: #16a085;
+    font-weight: bold;
+}
+
+/* Titres */
+QLabel[title="true"] {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    padding: 20px;
+}
+
+/* Tableaux */
+QTableWidget {
+    background-color: white;
+    alternate-background-color: #f8f9fa;
+    gridline-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+QTableWidget::item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+QHeaderView::section {
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+}
+
+/* Champs de formulaire */
+QLineEdit, QTextEdit, QComboBox, QSpinBox, QDoubleSpinBox, QDateEdit {
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+}
+
+QLineEdit:focus, QTextEdit:focus, QComboBox:focus, 
+QSpinBox:focus, QDoubleSpinBox:focus, QDateEdit:focus {
+    border-color: #3498db;
+    background-color: #f8f9fa;
+}
+
+/* Onglets */
+QTabWidget::pane {
+    border: 1px solid #bdc3c7;
+    background-color: white;
+    border-radius: 8px;
+}
+
+QTabBar::tab {
+    background-color: #ecf0f1;
+    padding: 10px 20px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #bdc3c7;
+}
+
+/* Messages */
+QMessageBox {
+    background-color: white;
+}
+
+QMessageBox QLabel {
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+/* Barre de progression */
+QProgressBar {
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    text-align: center;
+    background-color: white;
+}
+
+QProgressBar::chunk {
+    background-color: #2ecc71;
+    border-radius: 4px;
+}
+
+/* Groupes */
+QGroupBox {
+    font-weight: bold;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 5px 0 5px;
+    color: #34495e;
+}

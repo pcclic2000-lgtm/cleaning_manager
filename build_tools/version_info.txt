@@ -1,0 +1,30 @@
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(1, 1, 0, 0),
+    prodvers=(1, 1, 0, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0),
+  ),
+  kids=[
+    StringFileInfo([
+      StringTable(
+        u'040C04B0',
+        [
+          StringStruct(u'CompanyName',      u'Clean Manager SARL'),
+          StringStruct(u'FileDescription',  u'Clean Manager ERP - Logiciel de gestion nettoyage'),
+          StringStruct(u'FileVersion',      u'1.1.0.0'),
+          StringStruct(u'InternalName',     u'CleanManagerERP'),
+          StringStruct(u'LegalCopyright',   u'Copyright 2025 Clean Manager SARL. Tous droits reserves.'),
+          StringStruct(u'OriginalFilename', u'CleanManagerERP.exe'),
+          StringStruct(u'ProductName',      u'Clean Manager ERP'),
+          StringStruct(u'ProductVersion',   u'1.1.0'),
+        ]
+      )
+    ]),
+    VarFileInfo([VarStruct(u'Translation', [0x040C, 1200])])
+  ]
+)
