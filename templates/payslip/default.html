@@ -1,0 +1,237 @@
+<!-- templates/payslip/default.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche de Paie - {{ numero_fiche }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+        .company-info { float: left; text-align: left; }
+        .employee-info { float: right; text-align: right; }
+        .clear { clear: both; }
+        .section { margin-bottom: 30px; }
+        .section-title { background-color: #f0f0f0; padding: 10px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .total-row { font-weight: bold; background-color: #e8f4f8; }
+        .amount { text-align: right; }
+        .footer { margin-top: 50px; border-top: 1px solid #333; padding-top: 20px; }
+        .signature { display: inline-block; width: 45%; text-align: center; }
+        .page-break { page-break-after: always; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <div class="company-info">
+                <h2>{{ entreprise.nom }}</h2>
+                <p>{{ entreprise.adresse }}</p>
+                <p>SIRET: {{ entreprise.siret }} | APE: {{ entreprise.code_ape }}</p>
+            </div>
+            <div class="employee-info">
+                <h2>FICHE DE PAIE</h2>
+                <p>N° {{ numero_fiche }}</p>
+                <p>Période: {{ periode.libelle }}</p>
+                <p>Date génération: {{ generation_date }}</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Informations employé -->
+        <div class="section">
+            <div class="section-title">INFORMATIONS EMPLOYÉ</div>
+            <table>
+                <tr>
+                    <td width="25%">Matricule:</td>
+                    <td>{{ employee.matricule }}</td>
+                    <td width="25%">Date d'embauche:</td>
+                    <td>{{ employee.date_embauche }}</td>
+                </tr>
+                <tr>
+                    <td>Nom et prénom:</td>
+                    <td colspan="3">{{ employee.nom_complet }}</td>
+                </tr>
+                <tr>
+                    <td>Poste:</td>
+                    <td>{{ employee.poste }}</td>
+                    <td>N° CNSS:</td>
+                    <td>{{ employee.numero_cnss }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Gains -->
+        <div class="section">
+            <div class="section-title">RÉMUNÉRATION</div>
+            <table>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Quantité</th>
+                    <th>Taux/Base</th>
+                    <th>Montant</th>
+                </tr>
+                <tr>
+                    <td>Salaire de base</td>
+                    <td>{{ remuneration.heures_normales }} h</td>
+                    <td class="amount">{{ (remuneration.salaire_base / remuneration.heures_normales)|round(2) }} DA/h</td>
+                    <td class="amount">{{ remuneration.salaire_base|round(2) }} DA</td>
+                </tr>
+                {% if remuneration.heures_supp_25 > 0 %}
+                <tr>
+                    <td>Heures supplémentaires 25%</td>
+                    <td>{{ remuneration.heures_supp_25 }} h</td>
+                    <td class="amount">{{ (remuneration.salaire_base / remuneration.heures_normales * 1.25)|round(2) }} DA/h</td>
+                    <td class="amount">{{ (remuneration.salaire_base / remuneration.heures_normales * 1.25 * remuneration.heures_supp_25)|round(2) }} DA</td>
+                </tr>
+                {% endif %}
+                {% for prime_name, prime_value in primes.items() if prime_value > 0 %}
+                <tr>
+                    <td>{{ prime_name|replace('_', ' ')|title }}</td>
+                    <td colspan="2"></td>
+                    <td class="amount">{{ prime_value|round(2) }} DA</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3">TOTAL BRUT</td>
+                    <td class="amount">{{ totaux.total_brut|round(2) }} DA</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Cotisations salariales -->
+        <div class="section">
+            <div class="section-title">COTISATIONS SALARIALES</div>
+            <table>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Taux</th>
+                    <th>Assiette</th>
+                    <th>Montant</th>
+                </tr>
+                <tr>
+                    <td>CNSS salariale</td>
+                    <td>{{ cotisations.cnss.taux }}%</td>
+                    <td class="amount">{{ totaux.total_brut|round(2) }} DA</td>
+                    <td class="amount">{{ cotisations.cnss.montant|round(2) }} DA</td>
+                </tr>
+                {% if cotisations.impot_revenu.montant > 0 %}
+                <tr>
+                    <td>Impôt sur le revenu</td>
+                    <td>{{ cotisations.impot_revenu.taux }}%</td>
+                    <td class="amount">{{ totaux.total_brut|round(2) }} DA</td>
+                    <td class="amount">{{ cotisations.impot_revenu.montant|round(2) }} DA</td>
+                </tr>
+                {% endif %}
+                {% for cot_name, cot_value in cotisations.items() if cot_name not in ['cnss', 'impot_revenu'] and cot_value > 0 %}
+                <tr>
+                    <td>{{ cot_name|replace('_', ' ')|title }}</td>
+                    <td colspan="2"></td>
+                    <td class="amount">{{ cot_value|round(2) }} DA</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3">TOTAL COTISATIONS</td>
+                    <td class="amount">{{ cotisations.total|round(2) }} DA</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Synthèse -->
+        <div class="section">
+            <div class="section-title">SYNTHÈSE</div>
+            <table>
+                <tr>
+                    <td width="70%">Salaire brut total</td>
+                    <td class="amount">{{ totaux.total_brut|round(2) }} DA</td>
+                </tr>
+                <tr>
+                    <td>Total cotisations salariales</td>
+                    <td class="amount">- {{ cotisations.total|round(2) }} DA</td>
+                </tr>
+                <tr>
+                    <td>Salaire net imposable</td>
+                    <td class="amount">{{ totaux.salaire_net_imposable|round(2) }} DA</td>
+                </tr>
+                {% if absences.montant_retenu > 0 %}
+                <tr>
+                    <td>Absences ({{ absences.jours }} jours)</td>
+                    <td class="amount">- {{ absences.montant_retenu|round(2) }} DA</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td>NET À PAYER</td>
+                    <td class="amount">{{ totaux.salaire_net_a_payer|round(2) }} DA</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Paiement -->
+        {% if paiement.mode %}
+        <div class="section">
+            <div class="section-title">INFORMATIONS DE PAIEMENT</div>
+            <table>
+                <tr>
+                    <td width="30%">Mode de paiement:</td>
+                    <td>{{ paiement.mode }}</td>
+                </tr>
+                {% if paiement.banque %}
+                <tr>
+                    <td>Banque:</td>
+                    <td>{{ paiement.banque }}</td>
+                </tr>
+                <tr>
+                    <td>N° de compte:</td>
+                    <td>{{ paiement.numero_compte }}</td>
+                </tr>
+                {% endif %}
+                {% if paiement.date_virement %}
+                <tr>
+                    <td>Date de virement:</td>
+                    <td>{{ paiement.date_virement }}</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Congés -->
+        {% if conges.jours_pris > 0 or conges.jours_restants > 0 %}
+        <div class="section">
+            <div class="section-title">SITUATION DES CONGÉS</div>
+            <table>
+                <tr>
+                    <td>Congés pris dans le mois:</td>
+                    <td>{{ conges.jours_pris }} jours</td>
+                </tr>
+                <tr>
+                    <td>Solde congés restant:</td>
+                    <td>{{ conges.jours_restants }} jours</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Footer avec signatures -->
+        <div class="footer">
+            <div class="signature">
+                <p>L'employé</p>
+                <p>Signature:</p>
+                <p style="margin-top: 50px;">_________________________</p>
+            </div>
+            <div class="signature">
+                <p>L'employeur</p>
+                <p>Signature et cachet:</p>
+                <p style="margin-top: 50px;">_________________________</p>
+            </div>
+            <div class="clear"></div>
+            <p style="text-align: center; font-size: 10px; margin-top: 30px;">
+                Document généré électroniquement - Fiche valide sans signature
+            </p>
+        </div>
+    </div>
+</body>
+</html>
