@@ -1,0 +1,4 @@
+# requirements-dev.txt — Dépendances développement & packaging
+-r requirements.txt
+pyinstaller>=6.3.0
+pyinstaller-hooks-contrib>=2024.0

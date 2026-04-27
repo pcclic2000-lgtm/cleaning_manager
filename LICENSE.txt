@@ -1,0 +1,38 @@
+LICENCE D'UTILISATION — CLEAN MANAGER ERP
+Version 1.1.0
+
+Copyright © 2025 Clean Manager SARL
+Tous droits réservés.
+
+LOGICIEL COMMERCIAL — LICENCE MONOPOSTE
+
+1. OCTROI DE LICENCE
+   Ce logiciel est concédé sous licence, non vendu. L'achat d'une licence
+   vous autorise à installer et utiliser Clean Manager ERP sur UN (1) seul
+   ordinateur à la fois.
+
+2. RESTRICTIONS
+   Il vous est interdit de :
+   - Copier, modifier ou distribuer ce logiciel sans autorisation écrite ;
+   - Procéder à la rétro-ingénierie (reverse engineering) du logiciel ;
+   - Louer, prêter ou transférer cette licence à un tiers ;
+   - Supprimer ou modifier les mentions de copyright.
+
+3. MISES À JOUR
+   Les mises à jour sont fournies selon les modalités du contrat de
+   maintenance souscrit séparément.
+
+4. LIMITATION DE RESPONSABILITÉ
+   Ce logiciel est fourni "tel quel". Clean Manager SARL ne pourra être
+   tenu responsable d'aucun dommage indirect résultant de l'utilisation
+   du logiciel.
+
+5. RÉSILIATION
+   Cette licence prend fin automatiquement en cas de violation de ses
+   conditions. À la résiliation, vous devez désinstaller le logiciel.
+
+6. CONTACT
+   Clean Manager SARL
+   22 Rue deux piliers Bouzaréah, 16006 Alger, Algérie
+   Tél : 05552 88 30 50
+   Email : entsnet7@gmail.com
